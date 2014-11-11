@@ -54,20 +54,26 @@ namespace Renderer
                                BufferCount = 2,
                                ModeDescription = 
                                    new ModeDescription(form.ClientSize.Width, form.ClientSize.Height,
-                                                       new Rational(60, 1), Format.R8G8B8A8_UNorm),
+                                                       new Rational(60, 1), Format.B8G8R8A8_UNorm),
                                IsWindowed = true,
                                OutputHandle = form.Handle,
                                SampleDescription = new SampleDescription(1, 0),
-                               SwapEffect = SwapEffect.FlipSequential,
+                               SwapEffect = SwapEffect.Discard,
                                Usage = Usage.RenderTargetOutput
                         };
 
             var creationFlags = DeviceCreationFlags.Debug;
-            SharpDX.Direct3D11.Device.CreateWithSwapChain(DriverType.Hardware, creationFlags, desc, 
-                out m_Device, out m_SwapChain);
+
+            Factory factory = new Factory();
+            var adapter = factory.GetAdapter(0);
+            m_Device = new SharpDX.Direct3D11.Device(adapter, creationFlags);
+            m_SwapChain = new SwapChain(factory, m_Device, desc);
+
+            //SharpDX.Direct3D11.Device.CreateWithSwapChain(DriverType.Hardware, creationFlags, desc, 
+            //   out m_Device, out m_SwapChain);
  
             // Ignore all windows events
-            var factory = m_SwapChain.GetParent<Factory>();
+            //var factory = m_SwapChain.GetParent<Factory>();
             factory.MakeWindowAssociation(form.Handle, WindowAssociationFlags.IgnoreAll);
 
             // New RenderTargetView from the backbuffer
