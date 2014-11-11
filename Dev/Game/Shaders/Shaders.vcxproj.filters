@@ -20,5 +20,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="HLSL\fullscreen_tri_shared.hlsli" />
+    <None Include="HLSL\shared.hlsli" />
   </ItemGroup>
 </Project>

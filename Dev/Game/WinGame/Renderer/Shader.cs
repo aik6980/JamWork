@@ -7,6 +7,12 @@ using SharpDX.Windows;
 
 namespace Renderer
 {
+    struct Cb0
+    {
+        Vector4   RenderTargetSize;
+    };
+
+
     class Shader
     {
 

@@ -30,6 +30,12 @@ namespace Graphic
             m_PS.Dispose();
             m_VS.Dispose();
         }
+
+        public void Bind()
+        {
+            Renderer.RenderPipeline.Instance().SetVertexShader(m_VS);
+            Renderer.RenderPipeline.Instance().SetPixelShader(m_PS);
+        }
     }
 
     class EnvironmentView
@@ -40,6 +46,8 @@ namespace Graphic
         Texture2D           m_RenderTarget = null;
         RenderTargetView    m_RTView = null;
 
+        Viewport            m_Viewport;
+
         public void Init()
         {
             m_Shader = new EnvironmentShader();
@@ -48,11 +56,15 @@ namespace Graphic
             // create RT
             var dev_context = Renderer.RenderDevice.Instance().Device;
             var backbuffer_desc = Renderer.RenderDevice.Instance().BackBufferDesc();
+            var scale = 2;
+
+            var rt_width = backbuffer_desc.Width * scale;
+            var rt_height = backbuffer_desc.Height * scale;
             m_RenderTarget = new Texture2D(dev_context, new Texture2DDescription()
             {
                 Format = Format.R8G8B8A8_UNorm,
-                Width = backbuffer_desc.Width,
-                Height = backbuffer_desc.Height,
+                Width = rt_width,
+                Height = rt_height,
                 ArraySize = 1,
                 BindFlags = BindFlags.RenderTarget | BindFlags.ShaderResource,
                 CpuAccessFlags = CpuAccessFlags.None,
@@ -63,6 +75,8 @@ namespace Graphic
             });
 
             m_RTView = new RenderTargetView( dev_context, m_RenderTarget );
+
+            m_Viewport = new Viewport(0,0,rt_width,rt_height);
         }
 
         public void Destroy()
@@ -78,7 +92,13 @@ namespace Graphic
 
         public void Render()
         {
-            var dev_context = Renderer.RenderDevice.Instance().Device;
+            var context = Renderer.RenderDevice.Instance().Device.ImmediateContext;
+
+            //Renderer.RenderPipeline.Instance().SetRenderTarget(m_RTView);
+            //Renderer.RenderPipeline.Instance().SetViewport(m_Viewport);
+
+            m_Shader.Bind();
+            context.Draw(3,0);
         }
     };
 };

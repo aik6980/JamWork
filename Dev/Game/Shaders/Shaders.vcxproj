@@ -81,6 +81,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="HLSL\fullscreen_tri_shared.hlsli" />
+    <None Include="HLSL\shared.hlsli" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

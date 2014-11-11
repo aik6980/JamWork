@@ -42,6 +42,9 @@ namespace WinGame
             // Game update
 
             // Draw update
+            m_EnvironmentView.Render();
+
+            // end of the frame
             Renderer.RenderDevice.Instance().Present();
         }
 

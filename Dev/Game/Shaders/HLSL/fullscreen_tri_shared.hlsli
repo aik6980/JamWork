@@ -1,6 +1,8 @@
 #ifndef __fullscreen_tri_shared_hlsli
 #define __fullscreen_tri_shared_hlsli
 
+
+
 struct VS_OUTPUT
 {
 	float4	Position		: SV_POSITION;

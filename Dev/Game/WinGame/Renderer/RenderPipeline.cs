@@ -35,6 +35,8 @@ namespace Renderer
             var context = Renderer.RenderDevice.Instance().Device.ImmediateContext;
 
             m_RenderTarget = Renderer.RenderDevice.Instance().RTView;
+            var backbuffer_desc = Renderer.RenderDevice.Instance().BackBufferDesc();
+            m_Viewport = new Viewport(0, 0, backbuffer_desc.Width, backbuffer_desc.Height);
 
             // Prepare All the stages, set to default
             context.InputAssembler.InputLayout = null;
@@ -50,6 +52,46 @@ namespace Renderer
             context.OutputMerger.SetTargets(m_DepthStencilView, m_RenderTarget);
 
             //context.ClearRenderTargetView(m_RenderTarget, Color.Cyan);
+        }
+
+        public void SetRenderTarget(RenderTargetView input)
+        {
+            if(m_RenderTarget != input)
+            {
+                m_RenderTarget = input;
+                var context = Renderer.RenderDevice.Instance().Device.ImmediateContext;
+                context.OutputMerger.SetTargets(m_RenderTarget);
+            }
+        }
+
+        public void SetViewport(Viewport input)
+        {
+            if(m_Viewport != input)
+            {
+                m_Viewport = input;
+                var context = Renderer.RenderDevice.Instance().Device.ImmediateContext;
+                context.Rasterizer.SetViewport(m_Viewport);
+            }
+        }
+
+        public void SetVertexShader(VertexShader input)
+        {
+            if (m_VertexShader != input)
+            {
+                m_VertexShader = input;
+                var context = Renderer.RenderDevice.Instance().Device.ImmediateContext;
+                context.VertexShader.Set(m_VertexShader);
+            }
+        }
+
+        public void SetPixelShader(PixelShader input)
+        {
+            if (m_PixelShader != input)
+            {
+                m_PixelShader = input;
+                var context = Renderer.RenderDevice.Instance().Device.ImmediateContext;
+                context.PixelShader.Set(m_PixelShader);
+            }
         }
     };
 };
