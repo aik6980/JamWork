@@ -1,9 +1,10 @@
+#include "shared.hlsli"
 #include "fullscreen_tri_shared.hlsli"
 
 float4 main( VS_OUTPUT input ) : SV_TARGET
 {
-	float2 rtSize = float2(800.0,600.0);
-	float2 p = input.Position.xy/rtSize;
+	float4 rtSize = RenderTargetSize;
+	float2 p = input.Position.xy * rtSize.zw;
 
 	float3 col = float3(1.0, 0.4, 0.0);
 

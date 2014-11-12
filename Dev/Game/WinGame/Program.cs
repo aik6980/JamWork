@@ -32,6 +32,7 @@ namespace WinGame
             // system
             Renderer.RenderDevice.Instance().Init();
             Renderer.RenderPipeline.Instance().Init();
+            Renderer.ShaderGlobal.Instance().Init();
 
             // scene
             m_EnvironmentView.Init();
@@ -50,7 +51,11 @@ namespace WinGame
 
         static void Destroy()
         {
+            m_EnvironmentView.Destroy();
 
+            Renderer.ShaderGlobal.Instance().Destroy();
+            Renderer.RenderPipeline.Instance().Destroy();
+            Renderer.RenderDevice.Instance().Destroy();
         }
 
         [STAThread]

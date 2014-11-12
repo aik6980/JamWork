@@ -30,6 +30,8 @@ namespace Renderer
         VertexShader        m_VertexShader          = null;
         PixelShader         m_PixelShader           = null;
 
+        SharpDX.Direct3D11.Buffer[] m_ConstantBuffer= new SharpDX.Direct3D11.Buffer[16];
+
         public void Init()
         {
             var context = Renderer.RenderDevice.Instance().Device.ImmediateContext;
@@ -52,6 +54,11 @@ namespace Renderer
             context.OutputMerger.SetTargets(m_DepthStencilView, m_RenderTarget);
 
             //context.ClearRenderTargetView(m_RenderTarget, Color.Cyan);
+        }
+
+        public void Destroy()
+        {
+
         }
 
         public void SetRenderTarget(RenderTargetView input)
@@ -91,6 +98,18 @@ namespace Renderer
                 m_PixelShader = input;
                 var context = Renderer.RenderDevice.Instance().Device.ImmediateContext;
                 context.PixelShader.Set(m_PixelShader);
+            }
+        }
+
+        public void SetConstantBuffer(int slot, SharpDX.Direct3D11.Buffer input)
+        {
+            if(m_ConstantBuffer[slot] != input)
+            {
+                m_ConstantBuffer[slot] = input;
+                var context = Renderer.RenderDevice.Instance().Device.ImmediateContext;
+                // set constant buffer to every stages
+                context.VertexShader.SetConstantBuffer(slot, m_ConstantBuffer[slot]);
+                context.PixelShader.SetConstantBuffer(slot, m_ConstantBuffer[slot]);
             }
         }
     };

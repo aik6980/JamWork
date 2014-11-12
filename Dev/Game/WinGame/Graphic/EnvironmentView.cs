@@ -31,10 +31,14 @@ namespace Graphic
             m_VS.Dispose();
         }
 
-        public void Bind()
+        public void Apply()
         {
+            // bind shader
             Renderer.RenderPipeline.Instance().SetVertexShader(m_VS);
             Renderer.RenderPipeline.Instance().SetPixelShader(m_PS);
+
+            // bind constants
+            Renderer.ShaderGlobal.Instance().m_Cb0.Apply();
         }
     }
 
@@ -97,7 +101,7 @@ namespace Graphic
             //Renderer.RenderPipeline.Instance().SetRenderTarget(m_RTView);
             //Renderer.RenderPipeline.Instance().SetViewport(m_Viewport);
 
-            m_Shader.Bind();
+            m_Shader.Apply();
             context.Draw(3,0);
         }
     };

@@ -81,9 +81,21 @@ namespace Renderer
             m_RTView= new RenderTargetView(m_Device, backBuffer);
         }
 
+        public void Destroy()
+        {
+            m_RTView.Dispose();
+            m_SwapChain.Dispose();
+            m_Device.Dispose();
+        }
+
         public void Present()
         {
             m_SwapChain.Present(0, PresentFlags.None);
+        }
+
+        public SharpDX.Direct3D11.Buffer CreateBuffer<T>() where T : struct
+        {
+            return new SharpDX.Direct3D11.Buffer(m_Device, Utilities.SizeOf<T>(), ResourceUsage.Default, BindFlags.ConstantBuffer, CpuAccessFlags.None, ResourceOptionFlags.None, 0);
         }
     }
 }
