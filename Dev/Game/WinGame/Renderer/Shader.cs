@@ -72,7 +72,11 @@ namespace Renderer
         {
             m_Cb0.Init();
 
-            m_Cb0.m_Cb_CPUBuffer.RenderTargetSize = new Vector4(800.0f, 600.0f, 1/800.0f, 1/600.0f);
+            var backbuffer_desc = Renderer.RenderDevice.Instance().BackBufferDesc();
+            float rt_width  = backbuffer_desc.Width;
+            float rt_height = backbuffer_desc.Height;
+
+            m_Cb0.m_Cb_CPUBuffer.RenderTargetSize = new Vector4(rt_width, rt_height, 1/rt_width, 1/rt_height);
             m_Cb0.UpdateData();
         }
 
