@@ -3,6 +3,7 @@
 
 cbuffer cb0 : register(b0)
 {
+	float4  MousePosition;	  // xy : pos [0,w/h], 
 	float4	RenderTargetSize; // xy : width,height
 }
 

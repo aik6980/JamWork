@@ -13,6 +13,7 @@ using SharpDX.Windows;
 
 using Renderer;
 using Graphic;
+using Input;
 
 namespace WinGame
 {
@@ -26,6 +27,7 @@ namespace WinGame
 
         // scene
         static EnvironmentView m_EnvironmentView = new EnvironmentView();
+        static FinalCompositionView m_FinalCompositionView = new FinalCompositionView();
 
         static void Init()
         {
@@ -33,17 +35,22 @@ namespace WinGame
             Renderer.RenderDevice.Instance().Init();
             Renderer.RenderPipeline.Instance().Init();
             Renderer.ShaderGlobal.Instance().Init();
+            Input.InputManager.Instance().Init();
 
             // scene
             m_EnvironmentView.Init();
+            m_FinalCompositionView.Init();
         }
 
         static void Update()
         {
             // Game update
+            Input.InputManager.Instance().Update();
+            Renderer.ShaderGlobal.Instance().Update();
 
             // Draw update
             m_EnvironmentView.Render();
+            m_FinalCompositionView.Render();
 
             // end of the frame
             Renderer.RenderDevice.Instance().Present();
@@ -51,6 +58,7 @@ namespace WinGame
 
         static void Destroy()
         {
+            m_FinalCompositionView.Destroy();
             m_EnvironmentView.Destroy();
 
             Renderer.ShaderGlobal.Instance().Destroy();

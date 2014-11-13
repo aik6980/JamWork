@@ -30,7 +30,9 @@ namespace Renderer
         VertexShader        m_VertexShader          = null;
         PixelShader         m_PixelShader           = null;
 
-        SharpDX.Direct3D11.Buffer[] m_ConstantBuffer= new SharpDX.Direct3D11.Buffer[16];
+        SharpDX.Direct3D11.Buffer[]             m_ConstantBuffer        = new SharpDX.Direct3D11.Buffer[16];
+        SharpDX.Direct3D11.ShaderResourceView[] m_ShaderResourceView    = new SharpDX.Direct3D11.ShaderResourceView[16];
+        SharpDX.Direct3D11.SamplerState[]       m_SamplerState          = new SharpDX.Direct3D11.SamplerState[16];
 
         public void Init()
         {
@@ -71,6 +73,7 @@ namespace Renderer
             }
         }
 
+        public Viewport GetViewport() { return m_Viewport; }
         public void SetViewport(Viewport input)
         {
             if(m_Viewport != input)
@@ -110,6 +113,17 @@ namespace Renderer
                 // set constant buffer to every stages
                 context.VertexShader.SetConstantBuffer(slot, m_ConstantBuffer[slot]);
                 context.PixelShader.SetConstantBuffer(slot, m_ConstantBuffer[slot]);
+            }
+        }
+
+        public void SetShaderResourceViewPS(int slot, ShaderResourceView input)
+        {
+            if(m_ShaderResourceView[slot] != input)
+            {
+                m_ShaderResourceView[slot] = input;
+                var context = Renderer.RenderDevice.Instance().Device.ImmediateContext;
+                // set constant buffer to every stages
+                context.PixelShader.SetShaderResource(slot, m_ShaderResourceView[slot]);
             }
         }
     };

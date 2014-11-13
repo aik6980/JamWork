@@ -17,6 +17,7 @@
   <ItemGroup>
     <FxCompile Include="HLSL\fullscreen_tri_vs.hlsl" />
     <FxCompile Include="HLSL\final_composition_ps.hlsl" />
+    <FxCompile Include="HLSL\environment_ps.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="HLSL\fullscreen_tri_shared.hlsli" />
