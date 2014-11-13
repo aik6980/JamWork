@@ -9,7 +9,7 @@ using Renderer;
 
 namespace Graphic
 {
-    class FinalCompositionShader : ISceneView
+    class FinalCompositionShader
     {
         VertexShader    m_VS = null;
         PixelShader     m_PS = null;
@@ -39,7 +39,7 @@ namespace Graphic
         }
     }
 
-    class FinalCompositionView
+    class FinalCompositionView : ISceneView
     {
         FinalCompositionShader  m_Shader = null;
 
@@ -87,11 +87,21 @@ namespace Graphic
 
             ShaderGlobal.Instance().m_Cb0.m_Cb_CPUBuffer.RenderTargetSize = new Vector4( rt_width, rt_height, 1.0f/rt_width, 1.0f/rt_height );
             ShaderGlobal.Instance().m_Cb0.UpdateData();
+            ShaderGlobal.Instance().m_Cb0.Apply();
 
-            RenderPipeline.Instance().SetShaderResourceViewPS(0, m_RT
+            var envView = Graphic.SceneViewManager.Instance().GetView<EnvironmentView>(SceneViewType.ENVIRONMENT_VIEW);
+            if(envView != null)
+            {
+                RenderPipeline.Instance().SetShaderResourceViewPS(0, envView.RenderTargetSRV() );
+                RenderPipeline.Instance().SetSamplerStatePS(0, RenderStateGlobal.Instance().BilinearClampSampler );
+            }
+
 
             m_Shader.Apply();
             context.Draw(3,0);
+
+            // clear states
+            RenderPipeline.Instance().SetShaderResourceViewPS(0, null );
         }
     };
 };

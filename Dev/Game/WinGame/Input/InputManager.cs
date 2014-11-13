@@ -31,6 +31,12 @@ namespace Input
             m_CurrMouseState = m_Mouse.GetCurrentState();
         }
 
+        public void Destroy()
+        {
+            m_Mouse.Dispose();
+            m_Keyboard.Dispose();
+        }
+
         public void Update()
         {
             m_PrevMouseState = m_CurrMouseState;

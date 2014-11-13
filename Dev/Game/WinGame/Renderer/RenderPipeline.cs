@@ -126,5 +126,16 @@ namespace Renderer
                 context.PixelShader.SetShaderResource(slot, m_ShaderResourceView[slot]);
             }
         }
+
+        public void SetSamplerStatePS(int slot, SamplerState input)
+        {
+            if (m_SamplerState[slot] != input)
+            {
+                m_SamplerState[slot] = input;
+                var context = Renderer.RenderDevice.Instance().Device.ImmediateContext;
+                // set constant buffer to every stages
+                context.PixelShader.SetSampler(slot, m_SamplerState[slot]);
+            }
+        }
     };
 };

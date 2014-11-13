@@ -9,7 +9,7 @@ using Renderer;
 
 namespace Graphic
 {
-    class EnvironmentShader : ISceneView
+    class EnvironmentShader
     {
         VertexShader    m_VS = null;
         PixelShader     m_PS = null;
@@ -42,7 +42,7 @@ namespace Graphic
         }
     }
 
-    class EnvironmentView
+    class EnvironmentView : ISceneView
     {
         EnvironmentShader   m_Shader = null;
 
@@ -52,6 +52,8 @@ namespace Graphic
         ShaderResourceView  m_SRView = null;
 
         Viewport            m_Viewport;
+
+        public ShaderResourceView RenderTargetSRV() { return m_SRView; }
 
         public void Init()
         {
@@ -102,6 +104,12 @@ namespace Graphic
 
             Renderer.RenderPipeline.Instance().SetRenderTarget(m_RTView);
             Renderer.RenderPipeline.Instance().SetViewport(m_Viewport);
+
+            float rt_width = m_Viewport.Width;
+            float rt_height = m_Viewport.Height;
+
+            ShaderGlobal.Instance().m_Cb0.m_Cb_CPUBuffer.RenderTargetSize = new Vector4(rt_width, rt_height, 1.0f / rt_width, 1.0f / rt_height);
+            ShaderGlobal.Instance().m_Cb0.UpdateData();
 
             m_Shader.Apply();
             context.Draw(3,0);

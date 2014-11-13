@@ -10,6 +10,7 @@ VS_OUTPUT main( uint id : SV_VERTEXID )
 	output.Position.zw	= float2(0.0, 1.0);
 
 	// texture coord
+	output.Texcoord		= 0;
 	output.Texcoord.x	= (float)(id / 2) * 2.0;
 	output.Texcoord.y	= 1.0 - (float)(id % 2) * 2.0;
 

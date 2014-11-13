@@ -25,21 +25,17 @@ namespace WinGame
             get { return m_sRenderForm; }
         }
 
-        // scene
-        static EnvironmentView m_EnvironmentView = new EnvironmentView();
-        static FinalCompositionView m_FinalCompositionView = new FinalCompositionView();
-
         static void Init()
         {
             // system
             Renderer.RenderDevice.Instance().Init();
             Renderer.RenderPipeline.Instance().Init();
             Renderer.ShaderGlobal.Instance().Init();
+            Renderer.RenderStateGlobal.Instance().Init();
             Input.InputManager.Instance().Init();
 
             // scene
-            m_EnvironmentView.Init();
-            m_FinalCompositionView.Init();
+            Graphic.SceneViewManager.Instance().Init();
         }
 
         static void Update()
@@ -49,8 +45,7 @@ namespace WinGame
             Renderer.ShaderGlobal.Instance().Update();
 
             // Draw update
-            m_EnvironmentView.Render();
-            m_FinalCompositionView.Render();
+            Graphic.SceneViewManager.Instance().Render();
 
             // end of the frame
             Renderer.RenderDevice.Instance().Present();
@@ -58,9 +53,10 @@ namespace WinGame
 
         static void Destroy()
         {
-            m_FinalCompositionView.Destroy();
-            m_EnvironmentView.Destroy();
+            Graphic.SceneViewManager.Instance().Destroy();
 
+            Input.InputManager.Instance().Destroy();
+            Renderer.RenderStateGlobal.Instance().Destroy();
             Renderer.ShaderGlobal.Instance().Destroy();
             Renderer.RenderPipeline.Instance().Destroy();
             Renderer.RenderDevice.Instance().Destroy();
