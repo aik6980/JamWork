@@ -82,6 +82,7 @@
     <Compile Include="Graphic\EnvironmentView.cs" />
     <Compile Include="Renderer\RenderState.cs" />
     <Compile Include="Renderer\Shader.cs" />
+    <Compile Include="Graphic\ShaderManager.cs" />
     <Compile Include="Util\Singleton.cs" />
   </ItemGroup>
   <ItemGroup>

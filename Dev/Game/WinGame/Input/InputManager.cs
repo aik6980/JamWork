@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Forms;
 using System.Drawing;
@@ -16,7 +17,8 @@ namespace Input
         Keyboard    m_Keyboard;
         Mouse       m_Mouse;
 
-        MouseState  m_CurrMouseState, m_PrevMouseState;
+        MouseState      m_CurrMouseState, m_PrevMouseState;
+        KeyboardState   m_CurrKBState, m_PrevKBState;
 
         public void Init()
         {
@@ -29,6 +31,7 @@ namespace Input
             m_Mouse.Acquire();
 
             m_CurrMouseState = m_Mouse.GetCurrentState();
+            m_CurrKBState = m_Keyboard.GetCurrentState();
         }
 
         public void Destroy()
@@ -41,6 +44,9 @@ namespace Input
         {
             m_PrevMouseState = m_CurrMouseState;
             m_CurrMouseState = m_Mouse.GetCurrentState();
+
+            m_PrevKBState = m_CurrKBState;
+            m_CurrKBState = m_Keyboard.GetCurrentState();
         }
 
         public Point ClientMousePosition()
@@ -51,6 +57,24 @@ namespace Input
         public Point ScreenMousePosition()
         {
             return Cursor.Position;
+        }
+
+        public bool KeyDown(Key key)
+        {
+            return m_CurrKBState.IsPressed(key);
+        }
+
+        public bool KeyPressed(Key key)
+        {
+            if(m_PrevKBState.IsPressed(key) == false
+                && m_CurrKBState.IsPressed(key) == true)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }

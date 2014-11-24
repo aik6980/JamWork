@@ -35,6 +35,7 @@ namespace WinGame
             Input.InputManager.Instance().Init();
 
             // scene
+            Graphic.ShaderManager.Instance().Init();
             Graphic.SceneViewManager.Instance().Init();
         }
 
@@ -42,6 +43,7 @@ namespace WinGame
         {
             // Game update
             Input.InputManager.Instance().Update();
+            Graphic.ShaderManager.Instance().Update();
             Renderer.ShaderGlobal.Instance().Update();
 
             // Draw update
@@ -54,6 +56,7 @@ namespace WinGame
         static void Destroy()
         {
             Graphic.SceneViewManager.Instance().Destroy();
+            Graphic.ShaderManager.Instance().Destroy();
 
             Input.InputManager.Instance().Destroy();
             Renderer.RenderStateGlobal.Instance().Destroy();

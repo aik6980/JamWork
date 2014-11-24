@@ -11,31 +11,22 @@ namespace Graphic
 {
     class FinalCompositionShader
     {
-        VertexShader    m_VS = null;
-        PixelShader     m_PS = null;
-
         public void Init()
         {
-            var dev_context = Renderer.RenderDevice.Instance().Device;
 
-            var vs_bytecode = ShaderBytecode.FromFile( "Shaders/fullscreen_tri_vs.cso" );
-            m_VS = new VertexShader( dev_context, vs_bytecode );
-
-            var ps_bytecode = ShaderBytecode.FromFile( "Shaders/final_composition_ps.cso" );
-            m_PS = new PixelShader( dev_context, ps_bytecode );
         }
 
         public void Destroy()
         {
-            m_PS.Dispose();
-            m_VS.Dispose();
+
         }
 
         public void Apply()
         {
             // bind shader
-            Renderer.RenderPipeline.Instance().SetVertexShader(m_VS);
-            Renderer.RenderPipeline.Instance().SetPixelShader(m_PS);
+            var shader = Graphic.ShaderManager.Instance().Find(RenderShaderEnum.FINAL_COMPOSITION);
+            Renderer.RenderPipeline.Instance().SetVertexShader(shader.m_VS);
+            Renderer.RenderPipeline.Instance().SetPixelShader(shader.m_PS);
         }
     }
 

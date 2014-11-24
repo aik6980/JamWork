@@ -1,4 +1,6 @@
-﻿namespace Util
+﻿using System;
+
+namespace Util
 {
     class Singleton<T> where T: class, new()
     {
@@ -11,6 +13,14 @@
             }
 
             return m_sSingleton;
+        }
+    };
+
+    class Helper
+    {
+        static public void SafeDispose<T>(T obj) where T : IDisposable
+        {
+            if(obj!=null) obj.Dispose();
         }
     };
 }
