@@ -37,6 +37,8 @@ namespace WinGame
             // scene
             Graphic.ShaderManager.Instance().Init();
             Graphic.SceneViewManager.Instance().Init();
+
+            System.GpuSort.Instance().Init();
         }
 
         static void Update()
@@ -45,6 +47,9 @@ namespace WinGame
             Input.InputManager.Instance().Update();
             Graphic.ShaderManager.Instance().Update();
             Renderer.ShaderGlobal.Instance().Update();
+
+            // Simulation
+            System.GpuSort.Instance().Update();
 
             // Draw update
             Graphic.SceneViewManager.Instance().Render();

@@ -23,6 +23,7 @@ namespace Graphic
 
     enum ComputeShaderEnum
     {
+        COMPUTE0,
         NUM_COMPUTESHADER
     };
 
@@ -61,6 +62,11 @@ namespace Graphic
             m_ComputeShaderEnum = shaderEnum;
             m_CSFileName = fn;
         }
+
+        public void Dispose()
+        {
+            Util.Helper.SafeDispose(m_CS);
+        }
     }; 
 
     class ShaderManager : Util.Singleton<ShaderManager>
@@ -74,6 +80,9 @@ namespace Graphic
                 new RenderShaderEntry( RenderShaderEnum.ENVIRONMENT, "Shaders/fullscreen_tri_vs.cso", "Shaders/environment_ps.cso" ));
             m_RenderShaderList.Add( RenderShaderEnum.FINAL_COMPOSITION, 
                 new RenderShaderEntry( RenderShaderEnum.FINAL_COMPOSITION, "Shaders/fullscreen_tri_vs.cso", "Shaders/final_composition_ps.cso" ));
+
+            m_ComputeShaderList.Add( ComputeShaderEnum.COMPUTE0, 
+                new ComputeShaderEntry( ComputeShaderEnum.COMPUTE0, "Shaders/compute0_cs.cso" ));
 
             ReloadAllShaders();
         }
@@ -92,11 +101,21 @@ namespace Graphic
             {
                 kvp.Value.Dispose();
             }
+
+            foreach( var kvp in m_ComputeShaderList)
+            {
+                kvp.Value.Dispose();
+            }
         }
 
         void ReloadAllShaders()
         {
             foreach( var kvp in m_RenderShaderList)
+            {
+                ReloadShader(kvp.Value);
+            }
+
+            foreach( var kvp in m_ComputeShaderList)
             {
                 ReloadShader(kvp.Value);
             }
@@ -120,10 +139,29 @@ namespace Graphic
             }
         }
 
+        void ReloadShader(ComputeShaderEntry entry)
+        {
+            entry.Dispose();
+            var dev_context = Renderer.RenderDevice.Instance().Device;
+
+            if(entry.m_CSFileName.Length != 0)
+            {
+                var bytecode = ShaderBytecode.FromFile(entry.m_CSFileName);
+                entry.m_CS = new ComputeShader( dev_context, bytecode );
+            }
+        }
+
         public RenderShaderEntry Find(RenderShaderEnum key)
         {
             RenderShaderEntry val;
             var found = m_RenderShaderList.TryGetValue(key, out val);
+            return val;
+        }
+
+        public ComputeShaderEntry Find(ComputeShaderEnum key)
+        {
+            ComputeShaderEntry val;
+            var found = m_ComputeShaderList.TryGetValue(key, out val);
             return val;
         }
     };

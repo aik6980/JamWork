@@ -83,6 +83,7 @@
     <Compile Include="Renderer\RenderState.cs" />
     <Compile Include="Renderer\Shader.cs" />
     <Compile Include="Graphic\ShaderManager.cs" />
+    <Compile Include="System\GpuSort.cs" />
     <Compile Include="Util\Singleton.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -90,7 +91,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Contents\" />
-    <Folder Include="Systems\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\..\..\External\LibSharpDX\Build\SharpDX.targets" />

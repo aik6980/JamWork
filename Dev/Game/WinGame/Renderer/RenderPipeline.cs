@@ -7,19 +7,8 @@ using SharpDX.Windows;
 
 namespace Renderer
 {
-    class RenderPipeline
+    class RenderPipeline : Util.Singleton<RenderPipeline>
     {
-        static RenderPipeline m_sSingleton = null; 
-        public static RenderPipeline Instance()
-        {
-            if(m_sSingleton == null)
-            {
-                m_sSingleton = new RenderPipeline();
-            }
-
-            return m_sSingleton;
-        }
-
         // RenderTarget
         Viewport            m_Viewport;
         RenderTargetView    m_RenderTarget          = null;
