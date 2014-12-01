@@ -19,9 +19,11 @@
     <FxCompile Include="HLSL\final_composition_ps.hlsl" />
     <FxCompile Include="HLSL\environment_ps.hlsl" />
     <FxCompile Include="HLSL\compute0_cs.hlsl" />
+    <FxCompile Include="HLSL\image_filter_cs.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="HLSL\fullscreen_tri_shared.hlsli" />
     <None Include="HLSL\shared.hlsli" />
+    <None Include="HLSL\shared_cs.hlsli" />
   </ItemGroup>
 </Project>

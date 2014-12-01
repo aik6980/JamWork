@@ -73,6 +73,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Graphic\FinalCompositionView.cs" />
+    <Compile Include="Graphic\SceneFilterView.cs" />
     <Compile Include="Graphic\SceneViewManager.cs" />
     <Compile Include="Input\InputManager.cs" />
     <Compile Include="Program.cs" />
