@@ -11,8 +11,15 @@ using Renderer;
 
 namespace Graphic
 {
-     class EnvironmentView : ISceneView
+     class SceneFilterView : ISceneView
      {
-         
+         public void Init()
+         {}
+
+         public void Destroy()
+         {}
+
+         public void Render()
+         {}
      };
 }

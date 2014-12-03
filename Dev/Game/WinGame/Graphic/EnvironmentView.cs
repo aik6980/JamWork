@@ -31,7 +31,7 @@ namespace Graphic
             // bind constants
             Renderer.ShaderGlobal.Instance().m_Cb0.Apply();
         }
-    }
+    };
 
     class EnvironmentView : ISceneView
     {

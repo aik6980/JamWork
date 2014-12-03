@@ -9,53 +9,45 @@ using SharpDX.Windows;
 
 using Renderer;
 
+using D3DBuffer = SharpDX.Direct3D11.Buffer;
+
 namespace System
 {
-    public struct Pixel3232_RG
-    {
-        float R;
-        float G;
-
-        public Pixel3232_RG(float r, float g)
-        {
-            R = r; G = g;
-        }
-    }
-
     class GpuSort : Util.Singleton<GpuSort>
     {
         // Buffer
-        Texture2D               m_DataTexture = null;
-        UnorderedAccessView     m_UAView;
+        D3DBuffer               m_DataBuffer = null;
+        UnorderedAccessView     m_UAView     = null;
+
+        int                     m_NumItems   = 16;
 
         public void Init()
         {
             var dev = Renderer.RenderDevice.Instance().Device;
 
-            m_DataTexture = new Texture2D(dev, new Texture2DDescription()
+            int structSize  = Utilities.SizeOf<Point>();
+            int sizeInBytes = m_NumItems * structSize;
+
+            m_DataBuffer = new D3DBuffer(dev, new BufferDescription()
             {
-                Format = Format.R32G32_Float,
-                Width = 4,
-                Height = 4,
-                ArraySize = 1,
                 BindFlags = BindFlags.UnorderedAccess,
                 CpuAccessFlags = CpuAccessFlags.None,
-                MipLevels = 1,
-                OptionFlags = ResourceOptionFlags.None,
-                SampleDescription = new SampleDescription(1, 0),
+                OptionFlags = ResourceOptionFlags.BufferStructured,
+                SizeInBytes = sizeInBytes,
+                StructureByteStride = structSize,
                 Usage = ResourceUsage.Default,
             });
 
-            m_UAView = new UnorderedAccessView(dev, m_DataTexture);
+            m_UAView = new UnorderedAccessView(dev, m_DataBuffer);
 
             // upload data
-            Pixel3232_RG[] data = new Pixel3232_RG[4*4];
+            Point[] data = new Point[m_NumItems];
             for( int i=0; i<data.Length; ++i)
             {
-                data[i] = new Pixel3232_RG( 0.25f, 0.0f );
+                data[i] = new Point( -1, 0 );
             }
 
-            dev.ImmediateContext.UpdateSubresourceSafe(data, m_DataTexture, 16);
+            dev.ImmediateContext.UpdateSubresourceSafe(data, m_DataBuffer, structSize);
         }
 
         public void Destroy()
