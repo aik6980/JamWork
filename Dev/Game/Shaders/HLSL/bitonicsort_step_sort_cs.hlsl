@@ -12,7 +12,7 @@
 //--------------------------------------------------------------------------------------
 // Bitonic Sort Compute Shader
 //--------------------------------------------------------------------------------------
-groupshared int2 shared_data[BITONIC_BLOCK_SIZE];
+groupshared float2 shared_data[BITONIC_BLOCK_SIZE];
 
 [numthreads(BITONIC_BLOCK_SIZE, 1, 1)]
 void main( uint3 Gid : SV_GroupID, 
@@ -27,7 +27,7 @@ void main( uint3 Gid : SV_GroupID,
     // Sort the shared data
     for (unsigned int j = g_iLevel >> 1 ; j > 0 ; j >>= 1)
     {
-        int2 result = ((shared_data[GI & ~j].x <= shared_data[GI | j].x) == (bool)(g_iLevelMask & DTid.x))? shared_data[GI ^ j] : shared_data[GI];
+        float2 result = ((shared_data[GI & ~j].x <= shared_data[GI | j].x) == (bool)(g_iLevelMask & DTid.x))? shared_data[GI ^ j] : shared_data[GI];
         GroupMemoryBarrierWithGroupSync();
         shared_data[GI] = result;
         GroupMemoryBarrierWithGroupSync();
