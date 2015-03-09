@@ -18,6 +18,6 @@ namespace Graphic
 
     class MeshRenderer
     {
-        public 
+
     };
 }

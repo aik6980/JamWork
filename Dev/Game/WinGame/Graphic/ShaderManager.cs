@@ -31,22 +31,26 @@ namespace Graphic
     {
         public RenderShaderEnum m_RenderShaderEnum;
         public string       m_VSFileName;
+        public string       m_GSFileName;
         public string       m_PSFileName;
 
-        public VertexShader m_VS;
-        public PixelShader  m_PS;
+        public VertexShader     m_VS;
+        public GeometryShader   m_GS;
+        public PixelShader      m_PS;
 
-        public RenderShaderEntry( RenderShaderEnum shaderEnum, string vsFn, string psFn )
+        public RenderShaderEntry( RenderShaderEnum shaderEnum, string vsFn, string gsFn, string psFn )
         {
             m_RenderShaderEnum = shaderEnum;
             m_VSFileName = vsFn;
+            m_GSFileName = gsFn;
             m_PSFileName = psFn;
         }
 
         public void Dispose()
         {
-            Util.Helper.SafeDispose(m_VS);
             Util.Helper.SafeDispose(m_PS);
+            Util.Helper.SafeDispose(m_GS);
+            Util.Helper.SafeDispose(m_VS);
         }
     };
 
@@ -77,9 +81,9 @@ namespace Graphic
         public void Init()
         {
             m_RenderShaderList.Add( RenderShaderEnum.ENVIRONMENT, 
-                new RenderShaderEntry( RenderShaderEnum.ENVIRONMENT, "Shaders/fullscreen_tri_vs.cso", "Shaders/environment_ps.cso" ));
+                new RenderShaderEntry( RenderShaderEnum.ENVIRONMENT, "Shaders/fullscreen_tri_vs.cso", "", "Shaders/environment_ps.cso" ));
             m_RenderShaderList.Add( RenderShaderEnum.FINAL_COMPOSITION, 
-                new RenderShaderEntry( RenderShaderEnum.FINAL_COMPOSITION, "Shaders/fullscreen_tri_vs.cso", "Shaders/final_composition_ps.cso" ));
+                new RenderShaderEntry( RenderShaderEnum.FINAL_COMPOSITION, "Shaders/fullscreen_tri_vs.cso", "", "Shaders/final_composition_ps.cso" ));
 
             m_ComputeShaderList.Add( ComputeShaderEnum.COMPUTE0, 
                 new ComputeShaderEntry( ComputeShaderEnum.COMPUTE0, "Shaders/compute0_cs.cso" ));
@@ -130,6 +134,12 @@ namespace Graphic
             {
                 var bytecode = ShaderBytecode.FromFile(entry.m_VSFileName);
                 entry.m_VS = new VertexShader( dev_context, bytecode );
+            }
+
+            if(entry.m_GSFileName.Length != 0)
+            {
+                var bytecode = ShaderBytecode.FromFile(entry.m_GSFileName);
+                entry.m_GS = new GeometryShader( dev_context, bytecode );
             }
 
             if(entry.m_PSFileName.Length != 0)
