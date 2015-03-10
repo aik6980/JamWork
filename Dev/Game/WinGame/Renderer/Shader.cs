@@ -49,21 +49,6 @@ namespace Renderer
         }
     };
 
-    public struct CBUpdater<T> : IDisposable
-    {
-        public CachedConstantBuffer<T> m_Cb;
-        
-        public CBUpdater(CachedConstantBuffer<T> cb)
-        {
-            m_Cb = cb;
-        }
-
-        void Dispose()
-        {
-            m_Cb.UpdateData();
-        }
-    }
-
     class ShaderGlobal
     {
         static ShaderGlobal m_sSingleton = null; 
@@ -91,13 +76,9 @@ namespace Renderer
             var backbuffer_desc = Renderer.RenderDevice.Instance().BackBufferDesc();
             float rt_width  = backbuffer_desc.Width;
             float rt_height = backbuffer_desc.Height;
-
-            using(CBUpdater<Cb0> cb = new CBUpdater<Cb0>(m_Cb0))
-            {
-                 cb.m_Cb.m_Cb_CPUBuffer.RenderTargetSize = new Vector4(rt_width, rt_height, 1/rt_width, 1/rt_height);
-            }
            
-            //m_Cb0.UpdateData();
+            m_Cb0.m_Cb_CPUBuffer.RenderTargetSize = new Vector4(rt_width, rt_height, 1/rt_width, 1/rt_height);
+            m_Cb0.UpdateData();
         }
 
         public void Update()
