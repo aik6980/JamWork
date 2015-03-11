@@ -27,23 +27,50 @@ namespace Graphic
         NUM_COMPUTESHADER
     };
 
+    class RenderShaderEntryInfo
+    {
+        public RenderShaderEnum m_ShaderEnum;
+        public string           m_VSFileName;
+        public string           m_GSFileName;
+        public string           m_PSFileName;
+
+        public RenderShaderEntryInfo( RenderShaderEnum shaderEnum, string vsFn, string psFn )
+        {
+            m_ShaderEnum  = shaderEnum;
+            m_VSFileName        = vsFn;
+            m_PSFileName        = psFn;
+        }
+
+        public RenderShaderEntryInfo( RenderShaderEnum shaderEnum, string vsFn, string gsFn, string psFn )
+            : this(shaderEnum, vsFn, psFn) 
+        {
+            m_GSFileName        = gsFn;
+        }
+    }
+
+    class ComputeShaderEntryInfo
+    {
+        public ComputeShaderEnum    m_ShaderEnum;
+        public string               m_FileName;
+
+        public ComputeShaderEntryInfo( ComputeShaderEnum shaderEnum, string fn)
+        {
+            m_ShaderEnum    = shaderEnum;
+            m_FileName      = fn;
+        }
+    }
+
     class RenderShaderEntry
     {
-        public RenderShaderEnum m_RenderShaderEnum;
-        public string       m_VSFileName;
-        public string       m_GSFileName;
-        public string       m_PSFileName;
+        public RenderShaderEntryInfo m_Info;
 
         public VertexShader     m_VS;
         public GeometryShader   m_GS;
         public PixelShader      m_PS;
 
-        public RenderShaderEntry( RenderShaderEnum shaderEnum, string vsFn, string gsFn, string psFn )
+        public RenderShaderEntry(RenderShaderEntryInfo i)
         {
-            m_RenderShaderEnum = shaderEnum;
-            m_VSFileName = vsFn;
-            m_GSFileName = gsFn;
-            m_PSFileName = psFn;
+            m_Info = i;
         }
 
         public void Dispose()
@@ -56,15 +83,13 @@ namespace Graphic
 
     class ComputeShaderEntry
     {
-        public ComputeShaderEnum m_ComputeShaderEnum;
-        public string m_CSFileName;
+        public ComputeShaderEntryInfo m_Info;
 
         public ComputeShader m_CS;
 
-        public ComputeShaderEntry( ComputeShaderEnum shaderEnum, string fn )
+        public ComputeShaderEntry(ComputeShaderEntryInfo i)
         {
-            m_ComputeShaderEnum = shaderEnum;
-            m_CSFileName = fn;
+            m_Info = i;
         }
 
         public void Dispose()
@@ -80,13 +105,10 @@ namespace Graphic
 
         public void Init()
         {
-            m_RenderShaderList.Add( RenderShaderEnum.ENVIRONMENT, 
-                new RenderShaderEntry( RenderShaderEnum.ENVIRONMENT, "Shaders/fullscreen_tri_vs.cso", "", "Shaders/environment_ps.cso" ));
-            m_RenderShaderList.Add( RenderShaderEnum.FINAL_COMPOSITION, 
-                new RenderShaderEntry( RenderShaderEnum.FINAL_COMPOSITION, "Shaders/fullscreen_tri_vs.cso", "", "Shaders/final_composition_ps.cso" ));
-
-            m_ComputeShaderList.Add( ComputeShaderEnum.COMPUTE0, 
-                new ComputeShaderEntry( ComputeShaderEnum.COMPUTE0, "Shaders/compute0_cs.cso" ));
+            RegisterRenderShader(new RenderShaderEntryInfo( RenderShaderEnum.ENVIRONMENT, "Shaders/fullscreen_tri_vs.cso", "Shaders/environment_ps.cso" ));
+            RegisterRenderShader(new RenderShaderEntryInfo( RenderShaderEnum.FINAL_COMPOSITION, "Shaders/fullscreen_tri_vs.cso", "Shaders/final_composition_ps.cso" ));
+            
+            RegisterComputeShader(new ComputeShaderEntryInfo( ComputeShaderEnum.COMPUTE0, "Shaders/compute0_cs.cso"));
 
             ReloadAllShaders();
         }
@@ -130,21 +152,21 @@ namespace Graphic
             entry.Dispose();
             var dev_context = Renderer.RenderDevice.Instance().Device;
 
-            if(entry.m_VSFileName.Length != 0)
+            if(entry.m_Info.m_VSFileName.Length != 0)
             {
-                var bytecode = ShaderBytecode.FromFile(entry.m_VSFileName);
+                var bytecode = ShaderBytecode.FromFile(entry.m_Info.m_VSFileName);
                 entry.m_VS = new VertexShader( dev_context, bytecode );
             }
 
-            if(entry.m_GSFileName.Length != 0)
+            if(entry.m_Info.m_GSFileName.Length != 0)
             {
-                var bytecode = ShaderBytecode.FromFile(entry.m_GSFileName);
+                var bytecode = ShaderBytecode.FromFile(entry.m_Info.m_GSFileName);
                 entry.m_GS = new GeometryShader( dev_context, bytecode );
             }
 
-            if(entry.m_PSFileName.Length != 0)
+            if(entry.m_Info.m_PSFileName.Length != 0)
             {
-                var bytecode = ShaderBytecode.FromFile(entry.m_PSFileName);
+                var bytecode = ShaderBytecode.FromFile(entry.m_Info.m_PSFileName);
                 entry.m_PS = new PixelShader( dev_context, bytecode );
             }
         }
@@ -154,9 +176,9 @@ namespace Graphic
             entry.Dispose();
             var dev_context = Renderer.RenderDevice.Instance().Device;
 
-            if(entry.m_CSFileName.Length != 0)
+            if(entry.m_Info.m_FileName.Length != 0)
             {
-                var bytecode = ShaderBytecode.FromFile(entry.m_CSFileName);
+                var bytecode = ShaderBytecode.FromFile(entry.m_Info.m_FileName);
                 entry.m_CS = new ComputeShader( dev_context, bytecode );
             }
         }
@@ -173,6 +195,18 @@ namespace Graphic
             ComputeShaderEntry val;
             var found = m_ComputeShaderList.TryGetValue(key, out val);
             return val;
+        }
+
+        public void RegisterRenderShader(RenderShaderEntryInfo i)
+        {
+           var shader = new RenderShaderEntry(i);
+           m_RenderShaderList.Add(i.m_ShaderEnum, shader);
+        }
+
+        public void RegisterComputeShader(ComputeShaderEntryInfo i)
+        {
+           var shader = new ComputeShaderEntry(i);
+           m_ComputeShaderList.Add(i.m_ShaderEnum, shader);
         }
     };
 }
