@@ -38,20 +38,22 @@ namespace WinGame
             Graphic.ShaderManager.Instance().Init();
             Graphic.SceneViewManager.Instance().Init();
 
-            System.GpuSort.Instance().Init();
+            // object group
+            ObjectGroup.CObjectGroupManager.Instance().Init();
         }
 
         static void Update()
         {
             // Game update
             Input.InputManager.Instance().Update();
+            ObjectGroup.CObjectGroupManager.Instance().Update();
+            
+            // Simulation
+
+            // Draw update
             Graphic.ShaderManager.Instance().Update();
             Renderer.ShaderGlobal.Instance().Update();
 
-            // Simulation
-            System.GpuSort.Instance().Update();
-
-            // Draw update
             Graphic.SceneViewManager.Instance().Render();
 
             // end of the frame

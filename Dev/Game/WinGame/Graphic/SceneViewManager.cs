@@ -22,47 +22,47 @@ namespace Graphic
         void Destroy();
     };
 
-    enum SceneViewType : int
+    enum SCENEVIEW_TYPE : int
     {
         ENVIRONMENT_VIEW,
         FINALCOMPOSITION_VIEW,
-        NUM_VIEWS
+        SCENEVIEW_TYPE_COUNT
     }
 
     class SceneViewManager : Util.Singleton<SceneViewManager>
     {
-        Dictionary<SceneViewType, ISceneView>      m_SceneViewMap = new Dictionary<SceneViewType,ISceneView>(); 
+        Dictionary<SCENEVIEW_TYPE, ISceneView>      m_SceneViewMap = new Dictionary<SCENEVIEW_TYPE,ISceneView>(); 
 
         public void Init()
         {
-            m_SceneViewMap[SceneViewType.ENVIRONMENT_VIEW]      = new EnvironmentView();
-            m_SceneViewMap[SceneViewType.FINALCOMPOSITION_VIEW] = new FinalCompositionView();
+            m_SceneViewMap[SCENEVIEW_TYPE.ENVIRONMENT_VIEW]      = new EnvironmentView();
+            m_SceneViewMap[SCENEVIEW_TYPE.FINALCOMPOSITION_VIEW] = new FinalCompositionView();
 
-            for (int i = 0; i < (int)SceneViewType.NUM_VIEWS; ++i)
+            for (int i = 0; i < (int)SCENEVIEW_TYPE.SCENEVIEW_TYPE_COUNT; ++i)
             {
-                m_SceneViewMap[(SceneViewType)i].Init();
+                m_SceneViewMap[(SCENEVIEW_TYPE)i].Init();
             }
         }
 
         public void Render()
         {
-            for(int i=0; i<(int)SceneViewType.NUM_VIEWS; ++i)
+            for(int i=0; i<(int)SCENEVIEW_TYPE.SCENEVIEW_TYPE_COUNT; ++i)
             {
-                m_SceneViewMap[(SceneViewType)i].Render();
+                m_SceneViewMap[(SCENEVIEW_TYPE)i].Render();
             }
         }
 
         public void Destroy()
         {
-            for (int i = 0; i < (int)SceneViewType.NUM_VIEWS; ++i)
+            for (int i = 0; i < (int)SCENEVIEW_TYPE.SCENEVIEW_TYPE_COUNT; ++i)
             {
-                m_SceneViewMap[(SceneViewType)i].Destroy();
+                m_SceneViewMap[(SCENEVIEW_TYPE)i].Destroy();
             }
         }
 
-        public T GetView<T>(SceneViewType sceneType) where T : class
+        public T GetView<T>(SCENEVIEW_TYPE svt) where T : class
         {
-            T view  = m_SceneViewMap[sceneType] as T;
+            T view  = m_SceneViewMap[svt] as T;
             return view;
 
         }

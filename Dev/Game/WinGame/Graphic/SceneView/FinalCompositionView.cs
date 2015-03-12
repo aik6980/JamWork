@@ -30,7 +30,7 @@ namespace Graphic
         }
     }
 
-    class FinalCompositionView : ISceneView
+    class FinalCompositionView : BaseSceneView
     {
         FinalCompositionShader  m_Shader = null;
 
@@ -39,7 +39,12 @@ namespace Graphic
 
         Viewport            m_Viewport;
 
-        public void Init()
+        public override SCENEVIEW_TYPE SceneViewType()
+        {
+            return SCENEVIEW_TYPE.FINALCOMPOSITION_VIEW;
+        }
+
+        public override void Init()
         {
             m_Shader = new FinalCompositionShader();
             m_Shader.Init();
@@ -55,17 +60,12 @@ namespace Graphic
             m_Viewport = new Viewport(0,0,rt_width,rt_height);
         }
 
-        public void Destroy()
+        public override void Destroy()
         {
             m_Shader.Destroy();
         }
 
-        public void Update()
-        {
-
-        }
-
-        public void Render()
+        public override void Render()
         {
             var context = Renderer.RenderDevice.Instance().Device.ImmediateContext;
 
@@ -80,7 +80,7 @@ namespace Graphic
             ShaderGlobal.Instance().m_Cb0.UpdateData();
             ShaderGlobal.Instance().m_Cb0.Apply();
 
-            var envView = Graphic.SceneViewManager.Instance().GetView<EnvironmentView>(SceneViewType.ENVIRONMENT_VIEW);
+            var envView = Graphic.SceneViewManager.Instance().GetView<EnvironmentView>(SCENEVIEW_TYPE.ENVIRONMENT_VIEW);
             if(envView != null)
             {
                 RenderPipeline.Instance().SetShaderResourceViewPS(0, envView.RenderTargetSRV() );

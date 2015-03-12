@@ -72,19 +72,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Graphic\FinalCompositionView.cs" />
+    <Compile Include="Graphic\SceneView\BaseSceneView.cs" />
+    <Compile Include="Graphic\SceneView\FinalCompositionView.cs" />
     <Compile Include="Graphic\Geometry.cs" />
     <Compile Include="Graphic\MeshRenderer.cs" />
-    <Compile Include="Graphic\SceneFilterView.cs" />
+    <Compile Include="Graphic\SceneView\SceneFilterView.cs" />
     <Compile Include="Graphic\SceneViewManager.cs" />
     <Compile Include="Input\InputManager.cs" />
+    <Compile Include="ObjectGroup\VFXGroup\BaseObjectGroup.cs" />
     <Compile Include="ObjectGroup\IObjectGroup.cs" />
     <Compile Include="ObjectGroup\VFXGroup\VFXObjectGroup.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Renderer\RenderDevice.cs" />
     <Compile Include="Renderer\RenderPipeline.cs" />
-    <Compile Include="Graphic\EnvironmentView.cs" />
+    <Compile Include="Graphic\SceneView\EnvironmentView.cs" />
     <Compile Include="Renderer\RenderState.cs" />
     <Compile Include="Renderer\Shader.cs" />
     <Compile Include="Graphic\ShaderManager.cs" />

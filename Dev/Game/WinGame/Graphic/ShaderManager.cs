@@ -30,9 +30,9 @@ namespace Graphic
     class RenderShaderEntryInfo
     {
         public RenderShaderEnum m_ShaderEnum;
-        public string           m_VSFileName;
-        public string           m_GSFileName;
-        public string           m_PSFileName;
+        public string           m_VSFileName = "";
+        public string           m_GSFileName = "";
+        public string           m_PSFileName = "";
 
         public RenderShaderEntryInfo( RenderShaderEnum shaderEnum, string vsFn, string psFn )
         {

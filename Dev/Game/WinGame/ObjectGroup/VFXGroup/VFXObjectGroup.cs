@@ -4,10 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ObjectGroup.VFXGroup
+namespace ObjectGroup
 {
     class VFXObjectGroup : IObjectGroup
     {
+        public static readonly ObjectGroupType OBJECTGROUP_TYPE = ObjectGroupType.OBJECTGROUP_VFX;
+        public ObjectGroupType Type() { return OBJECTGROUP_TYPE; }
+
         public void Init()
         {
             
@@ -23,7 +26,7 @@ namespace ObjectGroup.VFXGroup
 
         }
 
-        public void Render()
+        public void Render(Graphic.SCENEVIEW_TYPE svt)
         {
 
         }

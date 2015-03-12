@@ -33,7 +33,7 @@ namespace Graphic
         }
     };
 
-    class EnvironmentView : ISceneView
+    class EnvironmentView : BaseSceneView
     {
         EnvironmentShader   m_Shader = null;
 
@@ -46,7 +46,12 @@ namespace Graphic
 
         public ShaderResourceView RenderTargetSRV() { return m_SRView; }
 
-        public void Init()
+        public override SCENEVIEW_TYPE SceneViewType()
+        {
+            return SCENEVIEW_TYPE.ENVIRONMENT_VIEW;
+        }
+
+        public override void Init()
         {
             m_Shader = new EnvironmentShader();
             m_Shader.Init();
@@ -78,18 +83,13 @@ namespace Graphic
             m_Viewport = new Viewport(0,0,rt_width,rt_height);
         }
 
-        public void Destroy()
+        public override void Destroy()
         {
             m_Shader.Destroy();
             m_RenderTarget.Dispose();
         }
 
-        public void Update()
-        {
-
-        }
-
-        public void Render()
+        public override void Render()
         {
             var context = Renderer.RenderDevice.Instance().Device.ImmediateContext;
 

@@ -13,7 +13,7 @@ using D3DBuffer = SharpDX.Direct3D11.Buffer;
 
 namespace System
 {
-    class GpuSort : Util.Singleton<GpuSort>
+    class GpuSort
     {
         // Buffer
         D3DBuffer               m_DataBuffer = null;
