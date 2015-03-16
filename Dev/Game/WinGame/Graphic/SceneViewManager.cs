@@ -24,6 +24,7 @@ namespace Graphic
 
     enum SCENEVIEW_TYPE : int
     {
+        GBUFFER_VIEW,
         ENVIRONMENT_VIEW,
         FINALCOMPOSITION_VIEW,
         SCENEVIEW_TYPE_COUNT
@@ -35,6 +36,7 @@ namespace Graphic
 
         public void Init()
         {
+            m_SceneViewMap[SCENEVIEW_TYPE.GBUFFER_VIEW]          = new GBufferView();   
             m_SceneViewMap[SCENEVIEW_TYPE.ENVIRONMENT_VIEW]      = new EnvironmentView();
             m_SceneViewMap[SCENEVIEW_TYPE.FINALCOMPOSITION_VIEW] = new FinalCompositionView();
 
