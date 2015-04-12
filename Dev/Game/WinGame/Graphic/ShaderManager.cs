@@ -108,7 +108,7 @@ namespace Graphic
             RegisterRenderShader(new RenderShaderEntryInfo( RenderShaderEnum.ENVIRONMENT, "Shaders/fullscreen_tri_vs.cso", "Shaders/environment_ps.cso" ));
             RegisterRenderShader(new RenderShaderEntryInfo( RenderShaderEnum.FINAL_COMPOSITION, "Shaders/fullscreen_tri_vs.cso", "Shaders/final_composition_ps.cso" ));
             
-            RegisterComputeShader(new ComputeShaderEntryInfo( ComputeShaderEnum.COMPUTE0, "Shaders/compute0_cs.cso"));
+            //RegisterComputeShader(new ComputeShaderEntryInfo( ComputeShaderEnum.COMPUTE0, "Shaders/compute0_cs.cso"));
 
             ReloadAllShaders();
         }
