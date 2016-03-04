@@ -50,6 +50,10 @@ namespace ObjectGroup
         {
             var dev_context = Renderer.RenderDevice.Instance().Device;
 
+            var buffer0 = new Buffer(dev_context, 128, ResourceUsage.Default,
+                BindFlags.VertexBuffer | BindFlags.StreamOutput,
+                CpuAccessFlags.None, ResourceOptionFlags.None, 32);
+
             var buffer = new Buffer(dev_context, 128, ResourceUsage.Default, 
                 BindFlags.VertexBuffer|BindFlags.ShaderResource|BindFlags.UnorderedAccess , 
                 CpuAccessFlags.None, ResourceOptionFlags.BufferAllowRawViews, 32);
