@@ -17,8 +17,6 @@ namespace ObjectGroup
 {
     class VFXObjectGroup : IObjectGroup
     {
-        Buffer  m_Buffer;
-
         public static readonly ObjectGroupType OBJECTGROUP_TYPE = ObjectGroupType.OBJECTGROUP_VFX;
         public ObjectGroupType Type() { return OBJECTGROUP_TYPE; }
 

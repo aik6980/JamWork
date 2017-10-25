@@ -32,7 +32,7 @@ namespace Graphic
 
     class SceneViewManager : Util.Singleton<SceneViewManager>
     {
-        Dictionary<SCENEVIEW_TYPE, ISceneView>      m_SceneViewMap = new Dictionary<SCENEVIEW_TYPE,ISceneView>(); 
+        Dictionary<SCENEVIEW_TYPE, ISceneView>      m_SceneViewMap = new Dictionary<SCENEVIEW_TYPE,ISceneView>();
 
         public void Init()
         {
